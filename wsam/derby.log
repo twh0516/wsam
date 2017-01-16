@@ -1,0 +1,8 @@
+服务器准备在端口 1527 上接受连接。
+----------------------------------------------------------------
+2016-11-25 14:57:33.371 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.2.1.7 - (453926): instance c013800d-0158-9bfd-d444-00000708ac88
+on database directory G:\javaproject\wsam\NetworkDB  
+
+Database Class Loader started - derby.database.classpath=''
+关闭成功。

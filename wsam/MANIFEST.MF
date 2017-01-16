@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Sealed: true
+Class-Path: lib/derby.jar lib/derbyclient.jar lib/derbynet.jar
+Main-Class: JavaDBTest
+
