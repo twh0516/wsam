@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainView extends JFrame {
 
@@ -36,7 +38,7 @@ public class MainView extends JFrame {
 	 */
 	public MainView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1920, 900);
+		setBounds(0, 0, 1920, 900);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -71,11 +73,19 @@ public class MainView extends JFrame {
 					.addContainerGap(37, Short.MAX_VALUE))
 		);
 		panel_1.add(sv);
-		
 		SpringLayout sl_panel = new SpringLayout();
 		panel.setLayout(sl_panel);
 		
 		JLabel label = new JLabel("学员建档");
+		label.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(sv.isVisible())
+					sv.setVisible(false);
+				else
+					sv.setVisible(true);
+			}
+		});
 		label.setFont(new Font("宋体", Font.PLAIN, 20));
 		sl_panel.putConstraint(SpringLayout.NORTH, label, 79, SpringLayout.NORTH, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, label, -39, SpringLayout.EAST, panel);
