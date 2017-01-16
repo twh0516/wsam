@@ -1,4 +1,4 @@
-package com.twh.wsam;
+package com.twh.wsam.addEditStudent;
 
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -13,7 +13,7 @@ import javax.swing.JComboBox;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 
-public class Test extends JPanel {
+public class StudentArchiveView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
@@ -30,7 +30,7 @@ public class Test extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Test() {
+	public StudentArchiveView() {
 		setBackground(Color.WHITE);
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);

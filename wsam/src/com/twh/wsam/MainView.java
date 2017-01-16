@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
+
+import com.twh.wsam.addEditStudent.StudentArchiveView;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -48,7 +51,7 @@ public class MainView extends JFrame {
 		JPanel panel_1 = new JPanel();
 		SpringLayout sl_panel_1 = new SpringLayout();
 		panel_1.setLayout(sl_panel_1);
-		Test sv = new Test();
+		StudentArchiveView sv = new StudentArchiveView();
 		sl_panel_1.putConstraint(SpringLayout.NORTH, sv, 10, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.WEST, sv, 10, SpringLayout.WEST, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, sv, 630, SpringLayout.NORTH, panel_1);
