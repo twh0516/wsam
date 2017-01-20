@@ -13,6 +13,7 @@ public class Teacher extends User {
 	 * 工号
 	 */
 	private String employeeNumber;
+	
 	public String getName() {
 		return name;
 	}
