@@ -19,13 +19,13 @@ public class Main {
 		// log.info(getExceptionStackTrace(e));
 		// }
 		
-		System.out.println(WindowsDivers.getMaxDriveString());
+//		System.out.println(getVideoTimeLength("d:/test.avi"));
+		cutVideo();
 	}
 
 
 
 	/**
-	 * ???????????
 	 * 
 	 * @param ex
 	 * @return
@@ -44,20 +44,19 @@ public class Main {
 		return error;
 	}
 
-	private static int getVideoTime() {
+	private static int getVideoTimeLength(String file) {
 		int time = 0;
-		String ffmpeg = AppUtil.getProjectRootPath() + "ffmpeg/ffmpeg";// ????
-		String inputFile = "F:/movie/???????33.mp4";
-		time = VideoOperate.getInstance().getVideoTime(inputFile, ffmpeg);
+		String ffmpeg = AppUtil.getProjectRootPath() + "ffmpeg/ffmpeg";
+		time = VideoOperate.getInstance().getVideoTimeLength(file, ffmpeg);
 		return time;
 	}
 
 	private static void cutVideo() {
-		String videoBeginTime = "00:20:00";
+		String videoBeginTime = "00:00:01";
 		String videoEndTime = "00:25:00";
-		String inputFile = "F:/movie/???????33.mp4";
+		String inputFile = "d:/test2.avi";
 		String outPath = AppUtil.getProjectRootPath() + "output/";
-		String outName = "?????.mp4";
+		String outName = "out.avi";
 		Logger log = LoggerUtil.getLoger();
 		log.info(outPath + outName + "\n");
 		VideoOperate.getInstance().cutVideo(videoBeginTime, videoEndTime, AppUtil.getFFmpeg(), inputFile, outPath,

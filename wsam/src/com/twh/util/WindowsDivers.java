@@ -7,13 +7,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * windows???????
+ * windows操作系统
  * @author twh
  *
  */
 public class WindowsDivers {
 	/**
-	 * ???windows???????????????
+	 * windows获取剩余空间最大的磁盘
 	 * @return
 	 */
 	public static String getMaxDriveString(){
@@ -26,7 +26,7 @@ public class WindowsDivers {
 	}
 	
 	/**
-	 * ???windows?????д?????????
+	 * 获取windows系统各分区的剩余空间
 	 * @return
 	 */
 	private static Map<String,Long> getHardDiskFreeSpace(){
@@ -39,7 +39,7 @@ public class WindowsDivers {
 	}
 	
 	/**
-	 * ????????????????
+	 * 得到剩余空间最大分区的map
 	 * @param map_hd_free
 	 * @return entry
 	 */

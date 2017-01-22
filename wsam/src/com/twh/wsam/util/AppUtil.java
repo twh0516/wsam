@@ -24,6 +24,9 @@ public class AppUtil {
 		int hour = t / 60;
 		int minute = t % 60;
 		String ffTime = hour + ":" +minute + ":00";
+		if(t== 0){ //ffmpeg  给"00:00:00"会报错
+			ffTime = "00:00:01";
+		}
 		return ffTime;
 	}
 	

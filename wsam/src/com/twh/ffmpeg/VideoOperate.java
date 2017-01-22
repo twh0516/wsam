@@ -55,7 +55,8 @@ public class VideoOperate {
 		command.add(inputFile);
 		command.add("-ss");
 		command.add(videoBeginTime);
-		command.add("-to");
+//		command.add("-to");
+		command.add("-t");
 		command.add(videoEndTime);
 		command.add("-copyinkf");// 应该是解决音视频不同步问题
 		command.add("-acodec");// 音频copy
@@ -93,7 +94,7 @@ public class VideoOperate {
 	 * @param ffmpeg_path
 	 * @return
 	 */
-	public synchronized int getVideoTime(String video_path, String ffmpeg_path) {
+	public synchronized int getVideoTimeLength(String video_path, String ffmpeg_path) {
 		List<String> commands = new java.util.ArrayList<String>();
 		commands.add(ffmpeg_path);
 		commands.add("-i");

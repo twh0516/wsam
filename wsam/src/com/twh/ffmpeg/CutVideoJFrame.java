@@ -133,17 +133,18 @@ public class CutVideoJFrame extends JFrame implements Callback {
 					text_error.setText("请设置视频输出路径");
 					text_error.setVisible(true);
 					return;
-				} else {
-					LoggerUtil.getLoger().info(outputPath);
-				}
+				} 
+//				else {
+//					LoggerUtil.getLoger().info(outputPath);
+//				}
 				if (AppUtil.isEmpty(beginTime)) {
 					text_error.setText("请输入开始时间");
 					text_error.setVisible(true);
 					return;
 				} else {
 					try {
-						LoggerUtil.getLoger().info(beginTime);
 						beginTime = AppUtil.getFFmpegTime(beginTime);
+						LoggerUtil.getLoger().info("选择的时间_" + beginTime);
 					} catch (NumberFormatException ne) {
 						text_error.setText("时间格式不正确");
 					}

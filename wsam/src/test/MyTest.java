@@ -1,8 +1,26 @@
 package test;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MyTest {
 	public static void main(String args[]) {
-		TestSync sc = new TestSync();
-		sc.sayNameHello("twh");
+		String jsonTest = "{\"person1\":{\"name\":\"twh\",\"sex\":1,}}";
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(jsonTest);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			System.out.println(jsonObject.getJSONObject("person1").get("name"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 	}
 }
 
