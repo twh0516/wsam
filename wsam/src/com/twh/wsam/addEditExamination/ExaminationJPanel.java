@@ -395,6 +395,6 @@ public class ExaminationJPanel extends JPanel implements Numbering{
 
 	@Override
 	public int getNo() {
-		return 5;
+		return 3;
 	}
 }

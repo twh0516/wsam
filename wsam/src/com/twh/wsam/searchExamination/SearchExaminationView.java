@@ -55,11 +55,6 @@ public class SearchExaminationView extends JPanel implements Numbering{
 		setBackground(new Color(255, 255, 255));
 		setLayout(new MigLayout("", "[929px]", "[30px][144px][336px]"));
 		
-		JLabel label = new JLabel("查询学员考试信息", SwingConstants.CENTER);
-		label.setFont(new Font("宋体", Font.BOLD, 25));
-		label.setBackground(SystemColor.activeCaption);
-		add(label, "cell 0 0,alignx center,aligny top");
-		
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {

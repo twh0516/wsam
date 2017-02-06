@@ -1,7 +1,14 @@
 package com.twh.wsam;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -13,24 +20,14 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.twh.wsam.addEditExamination.ExaminationJPanel;
-import com.twh.wsam.addEditExaminationRoom.ExaminationRoomView;
 import com.twh.wsam.addEditStudent.StudentArchiveView;
 import com.twh.wsam.addEditTeacher.TeacherView;
 import com.twh.wsam.login.LoginDialog;
 import com.twh.wsam.searchExamination.SearchExaminationView;
-import com.twh.wsam.setting.SettingView;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.Color;
-import java.awt.Cursor;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+public class MainTeacher extends JFrame {
 
-public class MainView extends JFrame {
-
+	private static final long serialVersionUID = 1L;
 	public static Color mouseEnteredColor = new Color(100, 149, 237);
 	public static Color mouseExitedColor = new Color(0, 0, 0);
 	private LoginDialog dialog;
@@ -91,7 +88,7 @@ public class MainView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainView frame = new MainView();
+					MainTeacher frame = new MainTeacher();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -103,7 +100,7 @@ public class MainView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainView() {
+	public MainTeacher() {
 		setTitle(Appinfo.appName);
 		dialog = new LoginDialog(this);
 		dialog.setVisible(true);
@@ -122,7 +119,7 @@ public class MainView extends JFrame {
 		panel_1.setLayout(sl_panel_1);
 
 		// 用于功能模块切换及效果
-		int moduleCount = 6;
+		int moduleCount = 4;
 		final JLabel[] titles = new JLabel[moduleCount];
 		final JPanel[] modules = new JPanel[moduleCount];
 
@@ -138,14 +135,6 @@ public class MainView extends JFrame {
 		// 教师信息
 		JPanel teacher = new TeacherView();
 		addModule(panel_1, sl_panel_1, teacher, modules);
-
-		// 考场信息
-		JPanel examinationRoom = new ExaminationRoomView();
-		addModule(panel_1, sl_panel_1, examinationRoom, modules);
-
-		// 服务器配置
-		JPanel serverConfig = new SettingView();
-		addModule(panel_1, sl_panel_1, serverConfig, modules);
 
 		// 新建考试
 		JPanel addExamination = new ExaminationJPanel();
@@ -168,9 +157,9 @@ public class MainView extends JFrame {
 						.addContainerGap()));
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0 };
-		gbl_panel.rowHeights = new int[] { 60, 60, 60, 60, 60, 60 };
+		gbl_panel.rowHeights = new int[] { 60, 60, 60, 60 };
 		gbl_panel.columnWeights = new double[] { 0.0 };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0};
 		panel.setLayout(gbl_panel);
 
 		JLabel label = new JLabel("学员建档");
@@ -203,7 +192,7 @@ public class MainView extends JFrame {
 		panel.add(label, gbc_label);
 
 		JLabel label_5 = new JLabel("新建考试");
-		titles[5] = label_5;
+		titles[3] = label_5;
 		label_5.setOpaque(true);
 		label_5.setFont(new Font("宋体", Font.PLAIN, 20));
 		GridBagConstraints gbc_label_5 = new GridBagConstraints();
@@ -211,10 +200,11 @@ public class MainView extends JFrame {
 		gbc_label_5.insets = new Insets(0, 0, 5, 0);
 		gbc_label_5.gridx = 0;
 		gbc_label_5.gridy = 1;
+		label_5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 5);
+				selectModule(titles, modules, 3);
 			}
 
 			@Override
@@ -257,41 +247,13 @@ public class MainView extends JFrame {
 		gbc_label_1.gridy = 2;
 		panel.add(label_1, gbc_label_1);
 
-		JLabel label_2 = new JLabel("创建考场 ");
-		titles[2] = label_2;
-		label_2.setOpaque(true);
-		label_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 2);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// label_2.setForeground(mouseEnteredColor);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// label_2.setForeground(mouseExitedColor);
-			}
-		});
-		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		label_2.setFont(new Font("宋体", Font.PLAIN, 20));
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.anchor = GridBagConstraints.NORTHEAST;
-		gbc_label_2.insets = new Insets(0, 0, 5, 0);
-		gbc_label_2.gridx = 0;
-		gbc_label_2.gridy = 3;
-		panel.add(label_2, gbc_label_2);
-
 		JLabel label_3 = new JLabel("教师信息 ");
-		titles[3] = label_3;
+		titles[2] = label_3;
 		label_3.setOpaque(true);
 		label_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 3);
+				selectModule(titles, modules, 2);
 			}
 
 			@Override
@@ -310,40 +272,13 @@ public class MainView extends JFrame {
 		gbc_label_3.anchor = GridBagConstraints.NORTHEAST;
 		gbc_label_3.insets = new Insets(0, 0, 5, 0);
 		gbc_label_3.gridx = 0;
-		gbc_label_3.gridy = 4;
+		gbc_label_3.gridy = 3;
 		panel.add(label_3, gbc_label_3);
-
-		JLabel label_4 = new JLabel("  环境搭建 ");
-		titles[4] = label_4;
-		label_4.setOpaque(true);
-		label_4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 4);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// label_4.setForeground(mouseEnteredColor);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// label_4.setForeground(mouseExitedColor);
-			}
-		});
-		label_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		label_4.setFont(new Font("宋体", Font.PLAIN, 20));
-		GridBagConstraints gbc_label_4 = new GridBagConstraints();
-		gbc_label_4.insets = new Insets(0, 0, 5, 0);
-		gbc_label_4.anchor = GridBagConstraints.NORTHEAST;
-		gbc_label_4.gridx = 0;
-		gbc_label_4.gridy = 5;
-		panel.add(label_4, gbc_label_4);
 		contentPane.setLayout(gl_contentPane);
 	}
 
 	private void selectModule(JLabel[] titles, JPanel[] modules, int moduleNo) {
+		// 取消选定全部
 		for (JLabel label : titles) {
 			if (label != null) {
 				label.setForeground(mouseExitedColor);
@@ -353,6 +288,8 @@ public class MainView extends JFrame {
 			if (panel != null)
 				panel.setVisible(false);
 		}
+		
+		
 
 		if (moduleNo < titles.length && titles[moduleNo] != null) {
 			titles[moduleNo].setForeground(mouseEnteredColor);

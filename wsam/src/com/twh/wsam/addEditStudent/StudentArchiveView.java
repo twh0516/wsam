@@ -1,36 +1,20 @@
 package com.twh.wsam.addEditStudent;
 
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 import java.awt.Color;
-import javax.swing.border.EmptyBorder;
-
-import com.twh.wsam.Numbering;
-import com.twh.wsam.addEditExamination.ExaminationJPanel;
-
-import java.awt.GridLayout;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Frame;
-
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.SystemColor;
-import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.KeyEvent;
-import javax.swing.JMenuBar;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import com.twh.wsam.Numbering;
 
 public class StudentArchiveView extends JPanel implements Numbering{
 	private static final long serialVersionUID = 1L;
@@ -65,18 +49,6 @@ public class StudentArchiveView extends JPanel implements Numbering{
 		setLayout(gbl_panel);
 		
 		int top = 20;
-		
-		
-		JLabel label_13 = new JLabel("学员建档");
-		GridBagConstraints gbc_label_13 = new GridBagConstraints();
-		gbc_label_13.gridwidth = 4;
-		gbc_label_13.insets = new Insets(0, 0, 5, 5);
-		gbc_label_13.gridx = 0;
-		gbc_label_13.gridy = 0;
-		add(label_13, gbc_label_13);
-		label_13.setHorizontalAlignment(SwingConstants.CENTER);
-		label_13.setFont(new Font("宋体", Font.BOLD, 25));
-		label_13.setBackground(SystemColor.activeCaption);
 		JLabel label = new JLabel("姓名：");
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		label.setFont(new Font("宋体", Font.PLAIN, 20));

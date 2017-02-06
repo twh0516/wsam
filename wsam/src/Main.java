@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import com.twh.ffmpeg.VideoOperate;
 import com.twh.util.LoggerUtil;
-import com.twh.util.WindowsDivers;
 import com.twh.wsam.util.AppUtil;
 
 public class Main {
@@ -20,7 +19,7 @@ public class Main {
 		// }
 		
 //		System.out.println(getVideoTimeLength("d:/test.avi"));
-		cutVideo();
+//		cutVideo();
 	}
 
 

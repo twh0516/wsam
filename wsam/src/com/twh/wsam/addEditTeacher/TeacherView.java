@@ -106,6 +106,6 @@ public class TeacherView extends JPanel implements Numbering {
 
 	@Override
 	public int getNo() {
-		return 3;
+		return 2;
 	}
 }
