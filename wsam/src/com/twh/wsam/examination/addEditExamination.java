@@ -1,35 +1,25 @@
-package com.twh.wsam.addEditExamination;
+package com.twh.wsam.examination;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 
 import com.twh.wsam.Numbering;
 
-import javax.swing.SpringLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Frame;
-
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import java.awt.SystemColor;
-import javax.swing.JTextPane;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.ComponentOrientation;
-
-public class ExaminationJPanel extends JPanel implements Numbering{
+public class addEditExamination extends JPanel implements Numbering{
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_3;
@@ -49,7 +39,7 @@ public class ExaminationJPanel extends JPanel implements Numbering{
 	 */
 	public static void main(String[] args)  {
 		try {
-			ExaminationJPanel dialog = new ExaminationJPanel();
+			addEditExamination dialog = new addEditExamination();
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,7 +49,7 @@ public class ExaminationJPanel extends JPanel implements Numbering{
 	/**
 	 * Create the dialog.
 	 */
-	public ExaminationJPanel() {
+	public addEditExamination() {
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		setBackground(Color.WHITE);
 		setBounds(100, 100, 714, 655);

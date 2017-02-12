@@ -38,8 +38,14 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+import java.awt.SystemColor;
 
 public class ExaminationRoomView extends JPanel implements Numbering {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private int countIP = 1, countStation = 1;// TODO test
 
@@ -47,7 +53,9 @@ public class ExaminationRoomView extends JPanel implements Numbering {
 	 * Create the panel.
 	 */
 	public ExaminationRoomView() {
-		setLayout(new BorderLayout(0, 0));
+		setBackground(Color.WHITE);
+		JPanel roomPanel = new JPanel();
+		roomPanel.setLayout(new BorderLayout(0, 0));
 		setFont(new Font("宋体", Font.PLAIN, 20));
 		final DefaultMutableTreeNode root = new DefaultMutableTreeNode("考场");
 		// Station station = new Station();
@@ -68,7 +76,7 @@ public class ExaminationRoomView extends JPanel implements Numbering {
 		});
 		tree.setFont(new Font("宋体", Font.PLAIN, 20));
 		JScrollPane scrollPane = new JScrollPane(tree);
-		add(scrollPane, BorderLayout.CENTER);
+		roomPanel.add(scrollPane, BorderLayout.CENTER);
 
 		JPanel panelTitle = new JPanel();
 		JLabel label_2 = new JLabel("考场编号：");
@@ -76,7 +84,7 @@ public class ExaminationRoomView extends JPanel implements Numbering {
 		label_2.setBackground(new Color(204, 204, 204));
 		label_2.setFont(new Font("宋体", Font.PLAIN, 25));
 		panelTitle.add(label_2);
-		add(panelTitle, BorderLayout.NORTH);
+		roomPanel.add(panelTitle, BorderLayout.NORTH);
 
 		textField = new JTextField();
 		textField.setToolTipText("请在此输入考场编号");
@@ -85,7 +93,7 @@ public class ExaminationRoomView extends JPanel implements Numbering {
 		textField.setColumns(10);
 
 		JPanel panel = new JPanel();
-		add(panel, BorderLayout.SOUTH);
+		roomPanel.add(panel, BorderLayout.SOUTH);
 
 		JButton btnNewButton = new JButton("添加工位");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -145,6 +153,20 @@ public class ExaminationRoomView extends JPanel implements Numbering {
 		panel.add(button_2);
 		button_1.setFont(new Font("宋体", Font.PLAIN, 20));
 		panel.add(button_1);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(roomPanel, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(261, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(roomPanel, GroupLayout.PREFERRED_SIZE, 501, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(185, Short.MAX_VALUE))
+		);
+		setLayout(groupLayout);
 
 	}
 
@@ -153,7 +175,7 @@ public class ExaminationRoomView extends JPanel implements Numbering {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ExaminationRoomView room = new ExaminationRoomView();
 		frame.getContentPane().add(room, BorderLayout.CENTER);
-		frame.setSize(600, 400);
+		frame.setSize(800, 700);
 		frame.setVisible(true);
 	}
 

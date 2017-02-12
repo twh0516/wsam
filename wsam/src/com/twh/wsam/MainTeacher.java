@@ -19,18 +19,17 @@ import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import com.twh.wsam.addEditExamination.ExaminationJPanel;
 import com.twh.wsam.addEditStudent.StudentArchiveView;
-import com.twh.wsam.addEditTeacher.TeacherView;
+import com.twh.wsam.examination.SearchExaminationView;
+import com.twh.wsam.examination.addEditExamination;
 import com.twh.wsam.login.LoginDialog;
-import com.twh.wsam.searchExamination.SearchExaminationView;
+import com.twh.wsam.teacher.AddEditTeacher;
 
 public class MainTeacher extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	public static Color mouseEnteredColor = new Color(100, 149, 237);
 	public static Color mouseExitedColor = new Color(0, 0, 0);
-	private LoginDialog dialog;
 
 	private JPanel contentPane;
 
@@ -102,8 +101,6 @@ public class MainTeacher extends JFrame {
 	 */
 	public MainTeacher() {
 		setTitle(Appinfo.appName);
-		dialog = new LoginDialog(this);
-		dialog.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1024, 680);
 		contentPane = new JPanel();
@@ -122,23 +119,26 @@ public class MainTeacher extends JFrame {
 		int moduleCount = 4;
 		final JLabel[] titles = new JLabel[moduleCount];
 		final JPanel[] modules = new JPanel[moduleCount];
-
+		final int studentNo = 0;
+		final int searchNo = 1;
+		final int teacherNo = 2;
+		final int addExaminationNo = 3;
 		// 添加各功能模块
 		// 学员建档
 		JPanel sv = new StudentArchiveView(this);
-		addModule(panel_1, sl_panel_1, sv, modules);
+		addModule(panel_1, sl_panel_1, sv, modules,0);
 
 		// 考试查询
 		JPanel search = new SearchExaminationView(this);
-		addModule(panel_1, sl_panel_1, search, modules);
+		addModule(panel_1, sl_panel_1, search, modules,1);
 
 		// 教师信息
-		JPanel teacher = new TeacherView();
-		addModule(panel_1, sl_panel_1, teacher, modules);
+		JPanel teacher = new AddEditTeacher();
+		addModule(panel_1, sl_panel_1, teacher, modules,2);
 
 		// 新建考试
-		JPanel addExamination = new ExaminationJPanel();
-		addModule(panel_1, sl_panel_1, addExamination, modules);
+		JPanel addExamination = new addEditExamination();
+		addModule(panel_1, sl_panel_1, addExamination, modules,3);
 
 		sv.setVisible(true);
 
@@ -163,13 +163,13 @@ public class MainTeacher extends JFrame {
 		panel.setLayout(gbl_panel);
 
 		JLabel label = new JLabel("学员建档");
-		titles[0] = label;
+		titles[studentNo] = label;
 		label.setOpaque(true);
 		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 0);
+				selectModule(titles, modules, studentNo);
 			}
 
 			@Override
@@ -192,7 +192,7 @@ public class MainTeacher extends JFrame {
 		panel.add(label, gbc_label);
 
 		JLabel label_5 = new JLabel("新建考试");
-		titles[3] = label_5;
+		titles[addExaminationNo] = label_5;
 		label_5.setOpaque(true);
 		label_5.setFont(new Font("宋体", Font.PLAIN, 20));
 		GridBagConstraints gbc_label_5 = new GridBagConstraints();
@@ -204,7 +204,7 @@ public class MainTeacher extends JFrame {
 		label_5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 3);
+				selectModule(titles, modules, addExaminationNo);
 			}
 
 			@Override
@@ -220,12 +220,12 @@ public class MainTeacher extends JFrame {
 		panel.add(label_5, gbc_label_5);
 
 		JLabel label_1 = new JLabel("考试查询");
-		titles[1] = label_1;
+		titles[searchNo] = label_1;
 		label_1.setOpaque(true);
 		label_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 1);
+				selectModule(titles, modules, searchNo);
 			}
 
 			@Override
@@ -248,12 +248,12 @@ public class MainTeacher extends JFrame {
 		panel.add(label_1, gbc_label_1);
 
 		JLabel label_3 = new JLabel("教师信息 ");
-		titles[2] = label_3;
+		titles[teacherNo] = label_3;
 		label_3.setOpaque(true);
 		label_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 2);
+				selectModule(titles, modules, teacherNo);
 			}
 
 			@Override
@@ -299,14 +299,13 @@ public class MainTeacher extends JFrame {
 		}
 	}
 
-	private void addModule(JPanel panel_1, SpringLayout sl_panel_1, JPanel module, JPanel[] modules) {
+	private void addModule(JPanel panel_1, SpringLayout sl_panel_1, JPanel module, JPanel[] modules,int no) {
 		sl_panel_1.putConstraint(SpringLayout.NORTH, module, 10, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.WEST, module, 30, SpringLayout.WEST, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, module, 550, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.EAST, module, 720, SpringLayout.WEST, panel_1);
 		module.setVisible(false);
 		panel_1.add(module);
-		int no = ((Numbering) module).getNo();
 		if (no < modules.length)
 			modules[no] = module;
 	}

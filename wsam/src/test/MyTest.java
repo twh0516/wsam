@@ -1,27 +1,27 @@
 package test;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.nio.ByteBuffer;
 
 public class MyTest {
 	public static void main(String args[]) {
-		String jsonTest = "{\"person1\":{\"name\":\"twh\",\"sex\":1,}}";
-		JSONObject jsonObject = null;
-		try {
-			jsonObject = new JSONObject(jsonTest);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ByteBuffer buf = ByteBuffer.allocate(10);
+		byte[] b = new byte[5];
+		for(int i = 0; i < 5; i++) {
+			b[i] = (byte)i;
 		}
 		
-		try {
-			System.out.println(jsonObject.getJSONObject("person1").get("name"));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		buf.put(0, (byte)9);
+		buf.put(1, (byte)8);
+		buf.put(2,(byte)7);
+		for(int i = 3; i < b.length + 3; i++) {
+			buf.put(i, b[i-3]);
 		}
-	
+		byte[] ba = buf.array();
+		for(byte bb : ba) {
+			System.out.println(bb);
+		}
 	}
+	
 }
 
 class TestSync {

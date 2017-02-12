@@ -24,6 +24,8 @@ import javax.swing.tree.TreePath;
 import com.twh.wsam.Numbering;
 import com.twh.wsam.addEditExaminationRoom.ExaminationRoomView;
 import java.awt.SystemColor;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class SettingView extends JPanel implements Numbering{
 	private static final long serialVersionUID = 1L;
@@ -33,7 +35,9 @@ public class SettingView extends JPanel implements Numbering{
 	 * Create the panel.
 	 */
 	public SettingView() {
-		setLayout(new BorderLayout(0, 0));
+		setBackground(Color.WHITE);
+		JPanel settingPanel = new JPanel();
+		settingPanel.setLayout(new BorderLayout(0, 0));
 		setFont(new Font("宋体", Font.PLAIN, 20));
 		final DefaultMutableTreeNode root = new DefaultMutableTreeNode("环境配置");
 		// Station station = new Station();
@@ -54,7 +58,7 @@ public class SettingView extends JPanel implements Numbering{
 		});
 		tree.setFont(new Font("宋体", Font.PLAIN, 20));
 		JScrollPane scrollPane = new JScrollPane(tree);
-		add(scrollPane, BorderLayout.CENTER);
+		settingPanel.add(scrollPane, BorderLayout.CENTER);
 
 		JPanel panelTitle = new JPanel();
 		JLabel label_2 = new JLabel("环境配置");
@@ -63,10 +67,10 @@ public class SettingView extends JPanel implements Numbering{
 		label_2.setBackground(SystemColor.controlHighlight);
 		label_2.setFont(new Font("宋体", Font.PLAIN, 25));
 		panelTitle.add(label_2);
-		add(panelTitle, BorderLayout.NORTH);
+		settingPanel.add(panelTitle, BorderLayout.NORTH);
 
 		JPanel panel = new JPanel();
-		add(panel, BorderLayout.SOUTH);
+		settingPanel.add(panel, BorderLayout.SOUTH);
 
 		JButton btnNewButton = new JButton("添加录像机");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -126,6 +130,22 @@ public class SettingView extends JPanel implements Numbering{
 		panel.add(button_2);
 		button_1.setFont(new Font("宋体", Font.PLAIN, 20));
 		panel.add(button_1);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(settingPanel, GroupLayout.PREFERRED_SIZE, 584, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(350, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(5)
+					.addComponent(settingPanel, GroupLayout.PREFERRED_SIZE, 519, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(115, Short.MAX_VALUE))
+		);
+		setLayout(groupLayout);
 
 	}
 

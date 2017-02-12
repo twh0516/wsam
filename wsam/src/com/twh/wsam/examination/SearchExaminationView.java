@@ -1,4 +1,4 @@
-package com.twh.wsam.searchExamination;
+package com.twh.wsam.examination;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,7 +10,6 @@ import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.twh.wsam.Numbering;
-import com.twh.wsam.addEditExamination.ExaminationJPanel;
 
 import java.awt.SystemColor;
 import java.awt.Dimension;
@@ -42,7 +41,7 @@ public class SearchExaminationView extends JPanel implements Numbering{
 
 		public MyDialog(Frame parent) {
 			super(parent, "新建考试");
-			setContentPane(new ExaminationJPanel());
+			setContentPane(new addEditExamination());
 			setBounds(100, 100, 800, 655);
 		}
 		
