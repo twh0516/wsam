@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SearchExaminationView extends JPanel implements Numbering{
+public class SearchExamination extends JPanel implements Numbering{
 	private JTable table;
 	private JTextField textField_1;
 	MyDialog addExamDialog ;
@@ -41,7 +41,7 @@ public class SearchExaminationView extends JPanel implements Numbering{
 
 		public MyDialog(Frame parent) {
 			super(parent, "新建考试");
-			setContentPane(new addEditExamination());
+			setContentPane(new AddEditExamination());
 			setBounds(100, 100, 800, 655);
 		}
 		
@@ -49,7 +49,7 @@ public class SearchExaminationView extends JPanel implements Numbering{
 	/**
 	 * Create the panel.
 	 */
-	public SearchExaminationView(Frame parent) {
+	public SearchExamination(Frame parent) {
 		addExamDialog = new MyDialog(parent);
 		setBackground(new Color(255, 255, 255));
 		setLayout(new MigLayout("", "[929px]", "[30px][144px][336px]"));

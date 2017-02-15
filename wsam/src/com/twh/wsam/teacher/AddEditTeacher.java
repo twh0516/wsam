@@ -10,8 +10,8 @@ import java.awt.SystemColor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-import com.twh.wsam.teacher.TeacherContract.Presenter;
-import com.twh.wsam.teacher.TeacherContract.View;
+import com.twh.wsam.teacher.AddTeacherContract.Presenter;
+import com.twh.wsam.teacher.AddTeacherContract.View;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Color;
 
 public class AddEditTeacher extends JPanel implements View{
 	/**
@@ -37,12 +38,13 @@ public class AddEditTeacher extends JPanel implements View{
 	 * Create the panel.
 	 */
 	public AddEditTeacher() {
+		setBackground(Color.WHITE);
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.control);
 		panel.setSize(new Dimension(400, 500));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0,40};
-		gridBagLayout.rowHeights = new int[] {100, 60, 60, 100, 0, 0};
+		gridBagLayout.rowHeights = new int[] {80, 60, 60, 100, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0,0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
@@ -50,8 +52,9 @@ public class AddEditTeacher extends JPanel implements View{
 		JLabel lblNewLabel = new JLabel("姓名：");
 		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.anchor = GridBagConstraints.SOUTHEAST;
+		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel.insets = new Insets(40, 0, 5, 5);
+		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		panel.add(lblNewLabel, gbc_lblNewLabel);
@@ -59,9 +62,8 @@ public class AddEditTeacher extends JPanel implements View{
 		jTextName = new JTextField();
 		jTextName.setFont(new Font("宋体", Font.PLAIN, 18));
 		GridBagConstraints gbc_jTextName = new GridBagConstraints();
-		gbc_jTextName.fill = GridBagConstraints.HORIZONTAL;
-		gbc_jTextName.anchor = GridBagConstraints.SOUTH;
-		gbc_jTextName.insets = new Insets(0, 0, 5, 0);
+		gbc_jTextName.fill = GridBagConstraints.BOTH;
+		gbc_jTextName.insets = new Insets(40, 0, 5, 0);
 		gbc_jTextName.gridx = 1;
 		gbc_jTextName.gridy = 0;
 		panel.add(jTextName, gbc_jTextName);
@@ -70,8 +72,9 @@ public class AddEditTeacher extends JPanel implements View{
 		JLabel lblNewLabel_1 = new JLabel("工号：");
 		lblNewLabel_1.setFont(new Font("宋体", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1.insets = new Insets(20, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
@@ -79,9 +82,8 @@ public class AddEditTeacher extends JPanel implements View{
 		jTextNumber = new JTextField();
 		jTextNumber.setFont(new Font("宋体", Font.PLAIN, 18));
 		GridBagConstraints gbc_jTextNumber = new GridBagConstraints();
-		gbc_jTextNumber.fill = GridBagConstraints.HORIZONTAL;
-		gbc_jTextNumber.anchor = GridBagConstraints.SOUTH;
-		gbc_jTextNumber.insets = new Insets(0, 0, 5, 0);
+		gbc_jTextNumber.fill = GridBagConstraints.BOTH;
+		gbc_jTextNumber.insets = new Insets(20, 0, 5, 0);
 		gbc_jTextNumber.gridx = 1;
 		gbc_jTextNumber.gridy = 1;
 		panel.add(jTextNumber, gbc_jTextNumber);
@@ -90,8 +92,9 @@ public class AddEditTeacher extends JPanel implements View{
 		JLabel lblNewLabel_2 = new JLabel("登录密码：");
 		lblNewLabel_2.setFont(new Font("宋体", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_2.insets = new Insets(20, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 2;
 		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
@@ -99,9 +102,8 @@ public class AddEditTeacher extends JPanel implements View{
 		jTextPassword = new JPasswordField();
 		jTextPassword.setFont(new Font("宋体", Font.PLAIN, 18));
 		GridBagConstraints gbc_jTextPassword = new GridBagConstraints();
-		gbc_jTextPassword.fill = GridBagConstraints.HORIZONTAL;
-		gbc_jTextPassword.anchor = GridBagConstraints.SOUTH;
-		gbc_jTextPassword.insets = new Insets(0, 0, 5, 0);
+		gbc_jTextPassword.fill = GridBagConstraints.BOTH;
+		gbc_jTextPassword.insets = new Insets(20, 0, 5, 0);
 		gbc_jTextPassword.gridx = 1;
 		gbc_jTextPassword.gridy = 2;
 		panel.add(jTextPassword, gbc_jTextPassword);
@@ -110,16 +112,15 @@ public class AddEditTeacher extends JPanel implements View{
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(37)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(72, Short.MAX_VALUE))
+					.addGap(34)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(87, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(31)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 472, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(38, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 360, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(181, Short.MAX_VALUE))
 		);
 		
 		JButton submit = new JButton("提交");

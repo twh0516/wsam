@@ -17,12 +17,24 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
+import com.mkk.swing.JTimeChooser;
+import com.twh.util.calendar.CalendarChooser;
+import com.twh.util.calendar.TimeChooser;
+import com.twh.util.calendar.TimeChooserDialog;
 import com.twh.wsam.Numbering;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class addEditExamination extends JPanel implements Numbering{
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_3;
+public class AddEditExamination extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTextField textField_startTime;
+	private JTextField textField_endTime;
+	private JTextField textDate;
 	private JButton button_1;
 	private JButton button_2;
 	private JLabel label_1;
@@ -34,44 +46,22 @@ public class addEditExamination extends JPanel implements Numbering{
 	private JTextField textField_5;
 	private JTextField textField_6;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args)  {
-		try {
-			addEditExamination dialog = new addEditExamination();
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public addEditExamination() {
+	public AddEditExamination() {
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		setBackground(Color.WHITE);
-		setBounds(100, 100, 714, 655);
+		JPanel examinationPanel = new JPanel();
+		examinationPanel.setBounds(100, 100, 714, 655);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{70, 45, 35, 35, 35, 35, 35,35,80,80};
+		gridBagLayout.rowHeights = new int[]{20, 45, 35, 35, 35, 35, 35,35,80,0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
 		int top = 10;
-		setLayout(gridBagLayout);
-		{
-			JLabel label = new JLabel("李勇的测评", SwingConstants.CENTER);
-			label.setFont(new Font("宋体", Font.BOLD, 25));
-			label.setBackground(SystemColor.activeCaption);
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.fill = GridBagConstraints.HORIZONTAL;
-			gbc_label.insets = new Insets(0, 0, 5, 0);
-			gbc_label.gridwidth = 4;
-			gbc_label.gridx = 0;
-			gbc_label.gridy = 0;
-			add(label, gbc_label);
-		}
+		examinationPanel.setLayout(gridBagLayout);
 		{
 			JLabel label = new JLabel("姓名：");
 			label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -82,16 +72,17 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 0;
 			gbc_label.gridy = 1;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			textField_5 = new JTextField();
+			textField_5.setFont(new Font("Dialog", Font.PLAIN, 18));
 			GridBagConstraints gbc_textField_5 = new GridBagConstraints();
 			gbc_textField_5.insets = new Insets(top, 0, 5, 5);
 			gbc_textField_5.fill = GridBagConstraints.BOTH;
 			gbc_textField_5.gridx = 1;
 			gbc_textField_5.gridy = 1;
-			add(textField_5, gbc_textField_5);
+			examinationPanel.add(textField_5, gbc_textField_5);
 		}
 		{
 			JLabel label = new JLabel("学号：");
@@ -102,16 +93,17 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 2;
 			gbc_label.gridy = 1;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			textField_6 = new JTextField();
+			textField_6.setFont(new Font("Dialog", Font.PLAIN, 18));
 			GridBagConstraints gbc_textField_6 = new GridBagConstraints();
 			gbc_textField_6.insets = new Insets(top, 0, 5, 5);
 			gbc_textField_6.fill = GridBagConstraints.BOTH;
 			gbc_textField_6.gridx = 3;
 			gbc_textField_6.gridy = 1;
-			add(textField_6, gbc_textField_6);
+			examinationPanel.add(textField_6, gbc_textField_6);
 		}
 		{
 			JLabel label = new JLabel("考场号：");
@@ -122,28 +114,29 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 0;
 			gbc_label.gridy = 2;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			JComboBox comboBox = new JComboBox();
+			comboBox.setFont(new Font("Dialog", Font.PLAIN, 18));
 			GridBagConstraints gbc_comboBox = new GridBagConstraints();
 			gbc_comboBox.fill = GridBagConstraints.BOTH;
 			gbc_comboBox.insets = new Insets(top, 0, 5, 5);
 			gbc_comboBox.gridx = 1;
 			gbc_comboBox.gridy = 2;
-			add(comboBox, gbc_comboBox);
+			examinationPanel.add(comboBox, gbc_comboBox);
 		}
 		{
 			textField_4 = new JTextField();
 			textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_4.setFont(new Font("宋体", Font.PLAIN, 20));
+			textField_4.setFont(new Font("Dialog", Font.PLAIN, 18));
 			textField_4.setBackground(Color.WHITE);
 			GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 			gbc_textField_4.insets = new Insets(0, 0, 5, 5);
 			gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
 			gbc_textField_4.gridx = 3;
 			gbc_textField_4.gridy = 4;
-			add(textField_4, gbc_textField_4);
+			examinationPanel.add(textField_4, gbc_textField_4);
 		}
 		{
 			JLabel label = new JLabel("全景视频：");
@@ -154,7 +147,7 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 2;
 			gbc_label.gridy = 5;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			JLabel label = new JLabel("普通视频：");
@@ -165,13 +158,13 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 0;
 			gbc_label.gridy = 5;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			JButton button = new JButton();
 			button.setText("点击播放视频");
 			button.setHorizontalAlignment(SwingConstants.CENTER);
-			button.setFont(new Font("宋体", Font.PLAIN, 20));
+			button.setFont(new Font("宋体", Font.PLAIN, 18));
 			button.setBackground(Color.WHITE);
 			GridBagConstraints gbc_button = new GridBagConstraints();
 			gbc_button.fill = GridBagConstraints.HORIZONTAL;
@@ -179,7 +172,7 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_button.insets = new Insets(10, 0, 5, 5);
 			gbc_button.gridx = 3;
 			gbc_button.gridy = 5;
-			add(button, gbc_button);
+			examinationPanel.add(button, gbc_button);
 		}
 		
 		
@@ -192,7 +185,7 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 2;
 			gbc_label.gridy = 4;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			JLabel label = new JLabel("开始时间：");
@@ -203,20 +196,22 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 2;
 			gbc_label.gridy = 3;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
-			textField = new JTextField();
-			textField.setHorizontalAlignment(SwingConstants.CENTER);
-			textField.setFont(new Font("宋体", Font.PLAIN, 20));
-			textField.setBackground(Color.WHITE);
+			textField_startTime = new JTextField();
+			TimeChooserDialog startTimeChooser = TimeChooserDialog.getInstance("开始时间");
+			startTimeChooser.register(textField_startTime);
+			textField_startTime.setHorizontalAlignment(SwingConstants.CENTER);
+			textField_startTime.setFont(new Font("Dialog", Font.PLAIN, 20));
+			textField_startTime.setBackground(Color.WHITE);
 			GridBagConstraints gbc_textField = new GridBagConstraints();
 			gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 			gbc_textField.anchor = GridBagConstraints.NORTH;
 			gbc_textField.insets = new Insets(10, 0, 5, 5);
 			gbc_textField.gridx = 3;
 			gbc_textField.gridy = 3;
-			add(textField, gbc_textField);
+			examinationPanel.add(textField_startTime, gbc_textField);
 		}
 		{
 			JLabel label = new JLabel("结束时间：");
@@ -227,14 +222,14 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 0;
 			gbc_label.gridy = 4;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		
 		{
 			JButton button = new JButton();
 			button.setText("点击获取视频");
 			button.setHorizontalAlignment(SwingConstants.CENTER);
-			button.setFont(new Font("宋体", Font.PLAIN, 20));
+			button.setFont(new Font("宋体", Font.PLAIN, 18));
 			button.setBackground(Color.WHITE);
 			GridBagConstraints gbc_button = new GridBagConstraints();
 			gbc_button.fill = GridBagConstraints.HORIZONTAL;
@@ -242,20 +237,22 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_button.insets = new Insets(top, 0, 5, 5);
 			gbc_button.gridx = 1;
 			gbc_button.gridy = 5;
-			add(button, gbc_button);
+			examinationPanel.add(button, gbc_button);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_1.setFont(new Font("宋体", Font.PLAIN, 20));
-			textField_1.setBackground(Color.WHITE);
-			GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-			gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_1.anchor = GridBagConstraints.NORTH;
-			gbc_textField_1.insets = new Insets(top, 0, 5, 5);
-			gbc_textField_1.gridx = 1;
-			gbc_textField_1.gridy = 4;
-			add(textField_1, gbc_textField_1);
+			textField_endTime = new JTextField();
+			TimeChooserDialog endTimeChooser = TimeChooserDialog.getInstance("结束时间");
+			endTimeChooser.register(textField_endTime);
+			textField_endTime.setHorizontalAlignment(SwingConstants.CENTER);
+			textField_endTime.setFont(new Font("Dialog", Font.PLAIN, 20));
+			textField_endTime.setBackground(Color.WHITE);
+			GridBagConstraints gbc_textField_endTime = new GridBagConstraints();
+			gbc_textField_endTime.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textField_endTime.anchor = GridBagConstraints.NORTH;
+			gbc_textField_endTime.insets = new Insets(top, 0, 5, 5);
+			gbc_textField_endTime.gridx = 1;
+			gbc_textField_endTime.gridy = 4;
+			examinationPanel.add(textField_endTime, gbc_textField_endTime);
 		}
 		{
 			JLabel label = new JLabel("考试日期：");
@@ -263,20 +260,23 @@ public class addEditExamination extends JPanel implements Numbering{
 			label.setFont(new Font("宋体", Font.PLAIN, 20));
 			GridBagConstraints gbc_label = new GridBagConstraints();
 			gbc_label.anchor = GridBagConstraints.NORTHEAST;
-			gbc_label.insets = new Insets(top, 0, 5, 5);
+			gbc_label.insets = new Insets(top, 5, 5, 5);
 			gbc_label.gridx = 0;
 			gbc_label.gridy = 3;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		
 		{
-			textField_3 = new JTextField();
-			GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-			gbc_textField_3.fill = GridBagConstraints.BOTH;
-			gbc_textField_3.insets = new Insets(top, 0, 5, 5);
-			gbc_textField_3.gridx = 1;
-			gbc_textField_3.gridy = 3;
-			add(textField_3, gbc_textField_3);
+			textDate = new JTextField();
+			CalendarChooser calendarPanel = CalendarChooser.getInstance();
+			calendarPanel.register(textDate);
+			textDate.setFont(new Font("Dialog", Font.PLAIN, 20));
+			GridBagConstraints gbc_textDate = new GridBagConstraints();
+			gbc_textDate.fill = GridBagConstraints.BOTH;
+			gbc_textDate.insets = new Insets(top, 0, 5, 5);
+			gbc_textDate.gridx = 1;
+			gbc_textDate.gridy = 3;
+			examinationPanel.add(textDate, gbc_textDate);
 		}
 		{
 			JLabel label = new JLabel("工位号：");
@@ -287,11 +287,11 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label.insets = new Insets(top, 0, 5, 5);
 			gbc_label.gridx = 2;
 			gbc_label.gridy = 2;
-			add(label, gbc_label);
+			examinationPanel.add(label, gbc_label);
 		}
 		{
 			JComboBox comboBox = new JComboBox();
-			comboBox.setFont(new Font("宋体", Font.PLAIN, 20));
+			comboBox.setFont(new Font("Dialog", Font.PLAIN, 18));
 			comboBox.setBackground(Color.WHITE);
 			GridBagConstraints gbc_comboBox = new GridBagConstraints();
 			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -299,29 +299,29 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_comboBox.insets = new Insets(10, 0, 5, 5);
 			gbc_comboBox.gridx = 3;
 			gbc_comboBox.gridy = 2;
-			add(comboBox, gbc_comboBox);
+			examinationPanel.add(comboBox, gbc_comboBox);
 		}
 		{
 			button_1 = new JButton("重新获取全景视频");
-			button_1.setFont(new Font("宋体", Font.PLAIN, 20));
+			button_1.setFont(new Font("宋体", Font.PLAIN, 18));
 			GridBagConstraints gbc_button_1 = new GridBagConstraints();
 			gbc_button_1.fill = GridBagConstraints.HORIZONTAL;
 			gbc_button_1.anchor = GridBagConstraints.NORTH;
 			gbc_button_1.insets = new Insets(top, 0, 5, 5);
 			gbc_button_1.gridx = 1;
 			gbc_button_1.gridy = 6;
-			add(button_1, gbc_button_1);
+			examinationPanel.add(button_1, gbc_button_1);
 		}
 		{
 			button_2 = new JButton("重新获取普通视频");
-			button_2.setFont(new Font("宋体", Font.PLAIN, 20));
+			button_2.setFont(new Font("宋体", Font.PLAIN, 18));
 			GridBagConstraints gbc_button_2 = new GridBagConstraints();
 			gbc_button_2.fill = GridBagConstraints.HORIZONTAL;
 			gbc_button_2.anchor = GridBagConstraints.NORTH;
 			gbc_button_2.insets = new Insets(10, 0, 5, 5);
 			gbc_button_2.gridx = 3;
 			gbc_button_2.gridy = 6;
-			add(button_2, gbc_button_2);
+			examinationPanel.add(button_2, gbc_button_2);
 		}
 		{
 			label_2 = new JLabel("评分：");
@@ -333,19 +333,19 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label_2.insets = new Insets(top, 0, 5, 5);
 			gbc_label_2.gridx = 0;
 			gbc_label_2.gridy = 7;
-			add(label_2, gbc_label_2);
+			examinationPanel.add(label_2, gbc_label_2);
 		}
 		{
 			textField_2 = new JTextField();
 			textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_2.setFont(new Font("宋体", Font.PLAIN, 20));
+			textField_2.setFont(new Font("Dialog", Font.PLAIN, 18));
 			textField_2.setBackground(Color.WHITE);
 			GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 			gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 			gbc_textField_2.insets = new Insets(top, 0, 5, 5);
 			gbc_textField_2.gridx = 1;
 			gbc_textField_2.gridy = 7;
-			add(textField_2, gbc_textField_2);
+			examinationPanel.add(textField_2, gbc_textField_2);
 		}
 		{
 			label_1 = new JLabel("评语：");
@@ -356,11 +356,11 @@ public class addEditExamination extends JPanel implements Numbering{
 			gbc_label_1.insets = new Insets(top, 0, 5, 5);
 			gbc_label_1.gridx = 0;
 			gbc_label_1.gridy = 8;
-			add(label_1, gbc_label_1);
+			examinationPanel.add(label_1, gbc_label_1);
 		}
 		
 		comment = new JTextPane();
-		comment.setFont(new Font("宋体", Font.PLAIN, 20));
+		comment.setFont(new Font("Dialog", Font.PLAIN, 18));
 		JScrollPane scrollPane = new JScrollPane(comment);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -368,23 +368,34 @@ public class addEditExamination extends JPanel implements Numbering{
 		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.gridx = 1;
 		gbc_scrollPane.gridy = 8;
-		add(scrollPane, gbc_scrollPane);
+		examinationPanel.add(scrollPane, gbc_scrollPane);
 		{
 			button_3 = new JButton("保存");
-			button_3.setFont(new Font("宋体", Font.PLAIN, 25));
+			button_3.setFont(new Font("宋体", Font.PLAIN, 23));
 			GridBagConstraints gbc_button_3 = new GridBagConstraints();
 			gbc_button_3.insets = new Insets(0, 0, 0, 5);
 			gbc_button_3.gridwidth = 4;
 			gbc_button_3.gridx = 0;
 			gbc_button_3.gridy = 9;
-			add(button_3, gbc_button_3);
+			examinationPanel.add(button_3, gbc_button_3);
 		}
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(examinationPanel, GroupLayout.PREFERRED_SIZE, 733, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(158, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(5)
+					.addComponent(examinationPanel, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(47, Short.MAX_VALUE))
+		);
+		setLayout(groupLayout);
 		{
 		}
 	}
 
-	@Override
-	public int getNo() {
-		return 3;
-	}
 }

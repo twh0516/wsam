@@ -5,13 +5,16 @@ import java.util.concurrent.Executors;
 
 public class ThreadPool {
 	public static ExecutorService textPool;
-	public static ExecutorService filePool ;
+	public static ExecutorService filePool;
 	private static String lock = "com.twh.wsam.netClient.ThreadPool";
+
 	public static ExecutorService getTextPool() {
 		if (textPool == null) {
 			synchronized (lock) {
-				if (textPool == null)
-					textPool = Executors.newSingleThreadExecutor();
+				if (textPool == null) {
+					textPool = Executors.newFixedThreadPool(2);
+//					textPool = Executors.newSingleThreadExecutor();
+				}
 			}
 		}
 		return textPool;
@@ -26,10 +29,11 @@ public class ThreadPool {
 		}
 		return filePool;
 	}
+
 	public static void shutdown() {
-		if(textPool != null)
+		if (textPool != null)
 			textPool.shutdownNow();
-		if(filePool != null) {
+		if (filePool != null) {
 			filePool.shutdownNow();
 		}
 	}

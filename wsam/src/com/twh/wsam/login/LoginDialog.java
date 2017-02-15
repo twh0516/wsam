@@ -74,6 +74,7 @@ public class LoginDialog extends JDialog implements View{
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		jTextUserName = new JTextField();
+		jTextUserName.setToolTipText("工号或学号");
 		jTextUserName.setFont(new Font("宋体", Font.PLAIN, 18));
 		jTextUserName.setColumns(10);
 		

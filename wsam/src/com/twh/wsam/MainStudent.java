@@ -17,11 +17,14 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.twh.wsam.addEditExaminationRoom.ExaminationRoomView;
-import com.twh.wsam.addEditStudent.StudentArchiveView;
-import com.twh.wsam.examination.SearchExaminationView;
-import com.twh.wsam.examination.addEditExamination;
-import com.twh.wsam.setting.SettingView;
+import com.twh.wsam.examination.SearchExamination;
+import com.twh.wsam.examination.AddEditExamination;
+import com.twh.wsam.setting.AddSetting;
+import com.twh.wsam.student.AddStudentContract;
+import com.twh.wsam.student.AddStudentPresenter;
+import com.twh.wsam.student.StudentArchive;
 import com.twh.wsam.teacher.AddEditTeacher;
+import com.twh.wsam.util.AppUtil;
 
 public class MainStudent extends JFrame {
 
@@ -114,37 +117,26 @@ public class MainStudent extends JFrame {
 		panel_1.setLayout(sl_panel_1);
 
 		// 用于功能模块切换及效果
-		int moduleCount = 6;
+		int moduleCount = 2;
 		final JLabel[] titles = new JLabel[moduleCount];
 		final JPanel[] modules = new JPanel[moduleCount];
-
+		final int studentTitleNo = 0;
+		final int examintaionTitleNo = 1;
 		// 添加各功能模块
 		// 学员建档
-		JPanel sv = new StudentArchiveView(this);
-		addModule(panel_1, sl_panel_1, sv, modules);
+		StudentArchive sv = new StudentArchive(this);
+		addModule(panel_1, sl_panel_1, sv, modules, studentTitleNo);
+		addModule(panel_1, sl_panel_1, sv, modules,studentTitleNo);
+		AddStudentContract.Presenter addStudentPresenter = new AddStudentPresenter(AppUtil.cStudent);
+		sv.setPresenter(addStudentPresenter);
+		addStudentPresenter.setView(sv);
+		sv.start();
 
 		// 考试查询
-		JPanel search = new SearchExaminationView(this);
-		addModule(panel_1, sl_panel_1, search, modules);
-
-		// 教师信息
-		JPanel teacher = new AddEditTeacher();
-		addModule(panel_1, sl_panel_1, teacher, modules);
-
-		// 考场信息
-		JPanel examinationRoom = new ExaminationRoomView();
-		addModule(panel_1, sl_panel_1, examinationRoom, modules);
-
-		// 服务器配置
-		JPanel serverConfig = new SettingView();
-		addModule(panel_1, sl_panel_1, serverConfig, modules);
-
-		// 新建考试
-		JPanel addExamination = new addEditExamination();
-		addModule(panel_1, sl_panel_1, addExamination, modules);
+		JPanel search = new SearchExamination(this);
+		addModule(panel_1, sl_panel_1, search, modules,examintaionTitleNo);
 
 		sv.setVisible(true);
-
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup().addGap(22)
@@ -160,13 +152,13 @@ public class MainStudent extends JFrame {
 						.addContainerGap()));
 
 		JLabel label = new JLabel("个人档案");
-		titles[0] = label;
+		titles[studentTitleNo] = label;
 		label.setOpaque(true);
 		label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 0);
+				selectModule(titles, modules, studentTitleNo);
 			}
 
 			@Override
@@ -183,12 +175,12 @@ public class MainStudent extends JFrame {
 		label.setFont(new Font("宋体", Font.PLAIN, 20));
 
 		JLabel label_1 = new JLabel("考试查询");
-		titles[1] = label_1;
+		titles[examintaionTitleNo] = label_1;
 		label_1.setOpaque(true);
 		label_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				selectModule(titles, modules, 1);
+				selectModule(titles, modules, examintaionTitleNo);
 			}
 
 			@Override
@@ -205,8 +197,8 @@ public class MainStudent extends JFrame {
 		label_1.setFont(new Font("宋体", Font.PLAIN, 20));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap(41, Short.MAX_VALUE)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(label_1)
@@ -216,11 +208,11 @@ public class MainStudent extends JFrame {
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(132)
+					.addGap(73)
 					.addComponent(label)
-					.addGap(38)
+					.addGap(45)
 					.addComponent(label_1)
-					.addContainerGap(329, Short.MAX_VALUE))
+					.addContainerGap(381, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
@@ -245,14 +237,13 @@ public class MainStudent extends JFrame {
 		}
 	}
 
-	private void addModule(JPanel panel_1, SpringLayout sl_panel_1, JPanel module, JPanel[] modules) {
+	private void addModule(JPanel panel_1, SpringLayout sl_panel_1, JPanel module, JPanel[] modules,int no) {
 		sl_panel_1.putConstraint(SpringLayout.NORTH, module, 10, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.WEST, module, 30, SpringLayout.WEST, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, module, 550, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.EAST, module, 720, SpringLayout.WEST, panel_1);
 		module.setVisible(false);
 		panel_1.add(module);
-		int no = ((Numbering) module).getNo();
 		if (no < modules.length)
 			modules[no] = module;
 	}

@@ -1,14 +1,14 @@
-package com.twh.wsam.teacher;
+package com.twh.wsam.student;
 
 import com.twh.wsam.ClientContract;
 
-public interface TeacherContract {
+public interface SearchStudentContract {
 	interface View extends ClientContract.ClientBaseView{
-		void showTeacher(String employeeNumber,String name,String password);
 		void setPresenter(Presenter presenter);
+		void showResultTable(String[][] data);
 	}
 	interface Presenter extends ClientContract.ClientBasePresenter{
-		void submitTeacher(String employeeNumber,String name,String password);
+		void searchStudent(String field,int cmd);
 		void setView(View view);
 	}
 }

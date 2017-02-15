@@ -19,15 +19,23 @@ import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import com.twh.wsam.addEditExaminationRoom.ExaminationRoomContract;
+import com.twh.wsam.addEditExaminationRoom.ExaminationRoomPresenter;
 import com.twh.wsam.addEditExaminationRoom.ExaminationRoomView;
-import com.twh.wsam.addEditStudent.StudentArchiveView;
-import com.twh.wsam.examination.SearchExaminationView;
-import com.twh.wsam.examination.addEditExamination;
+import com.twh.wsam.examination.SearchExamination;
+import com.twh.wsam.examination.AddEditExamination;
 import com.twh.wsam.login.LoginDialog;
-import com.twh.wsam.setting.SettingView;
-import com.twh.wsam.teacher.TeacherPresenter;
+import com.twh.wsam.setting.AddSetting;
+import com.twh.wsam.setting.AddSettingContract;
+import com.twh.wsam.setting.AddSettingPresenter;
+import com.twh.wsam.setting.VCRContractor;
+import com.twh.wsam.setting.VCRPresenter;
+import com.twh.wsam.student.StudentArchive;
+import com.twh.wsam.teacher.AddTeacherPresenter;
+import com.twh.wsam.teacher.SearchTeacher;
+import com.twh.wsam.teacher.SearchTeacherPresenter;
 import com.twh.wsam.teacher.AddEditTeacher;
-import com.twh.wsam.teacher.TeacherContract.Presenter;
+import com.twh.wsam.teacher.AddTeacherContract.Presenter;
 
 public class MainAdmin extends JFrame {
 
@@ -97,139 +105,183 @@ public class MainAdmin extends JFrame {
 		panel_1.setLayout(sl_panel_1);
 
 		// 用于功能模块切换及效果
-		int moduleCount = 3;
+		int moduleCount = 4;
 		final JLabel[] titles = new JLabel[moduleCount];
 		final JPanel[] modules = new JPanel[moduleCount];
 		final int addTeacherNo = 0;
 		final int addRoomNo = 1;
 		final int addEnvironmentNo = 2;
+		final int searchTeacherNo = 3;
 		// 添加各功能模块
 		// 教师信息
 		AddEditTeacher teacher = new AddEditTeacher();
-		Presenter presenter = new TeacherPresenter(null);
+		Presenter presenter = new AddTeacherPresenter(null);
 		presenter.setView(teacher);
 		teacher.setPresenter(presenter);
 		teacher.start();
-		
+
 		teacher.setBackground(Color.WHITE);
-		addModule(panel_1, sl_panel_1, teacher, modules,addTeacherNo);
+		addModule(panel_1, sl_panel_1, teacher, modules, addTeacherNo);
 
 		// 考场信息
-		JPanel examinationRoom = new ExaminationRoomView();
-		addModule(panel_1, sl_panel_1, examinationRoom, modules,addRoomNo);
+		ExaminationRoomView examinationRoom = new ExaminationRoomView();
+		ExaminationRoomContract.Presenter roomPresenter = new ExaminationRoomPresenter();
+		roomPresenter.setView(examinationRoom);
+		examinationRoom.setPresenter(roomPresenter);
+		examinationRoom.start();
+		addModule(panel_1, sl_panel_1, examinationRoom, modules, addRoomNo);
 
 		// 服务器配置
-		JPanel serverConfig = new SettingView();
-		addModule(panel_1, sl_panel_1, serverConfig, modules,addEnvironmentNo);
+		AddSetting serverConfig = new AddSetting();
+		AddSettingContract.Presenter addSettingPresenter = new AddSettingPresenter();
+		addSettingPresenter.setView(serverConfig);
+		serverConfig.setPresenter(addSettingPresenter);
+		VCRContractor.Presenter vcrPresenter = new VCRPresenter();
+		serverConfig.setVCRPresenter(vcrPresenter);
+		serverConfig.start();
+		addModule(panel_1, sl_panel_1, serverConfig, modules, addEnvironmentNo);
 		
+		SearchTeacher searchTeacher = new SearchTeacher();
+		SearchTeacherPresenter searchPresenter = new SearchTeacherPresenter();
+		searchTeacher.setPresenter(searchPresenter);
+		searchPresenter.setView(searchTeacher);
+		
+		addModule(panel_1, sl_panel_1, searchTeacher, modules, searchTeacherNo);
+
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(25)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
-					.addGap(44)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addGap(20)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
-						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
-					.addContainerGap())
-		);
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(25)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE).addGap(44)
+						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)));
+		gl_contentPane
+				.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+						gl_contentPane.createSequentialGroup().addGap(20)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 594,
+												Short.MAX_VALUE)
+										.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 594,
+												Short.MAX_VALUE))
+								.addContainerGap()));
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0 };
 		gbl_panel.rowHeights = new int[] { 60, 60, 60, 60, 60, 60 };
 		gbl_panel.columnWeights = new double[] { 0.0 };
 		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		panel.setLayout(gbl_panel);
+
+		JLabel label_teacher = new JLabel("新建教师 ");
+		titles[addTeacherNo] = label_teacher;
+		label_teacher.setOpaque(true);
+		label_teacher.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectModule(titles, modules, addTeacherNo);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// label_3.setForeground(mouseEnteredColor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// label_3.setForeground(mouseExitedColor);
+			}
+		});
+		label_teacher.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_teacher.setFont(new Font("宋体", Font.PLAIN, 20));
+		GridBagConstraints gbc_label_teacher = new GridBagConstraints();
+		gbc_label_teacher.anchor = GridBagConstraints.NORTHEAST;
+		gbc_label_teacher.insets = new Insets(0, 0, 5, 0);
+		gbc_label_teacher.gridx = 0;
+		gbc_label_teacher.gridy = 0;
+		panel.add(label_teacher, gbc_label_teacher);
 		
-				JLabel label_teacher = new JLabel("教师信息 ");
-				titles[addTeacherNo] = label_teacher;
-				label_teacher.setOpaque(true);
-				label_teacher.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						selectModule(titles, modules, addTeacherNo);
-					}
+		JLabel label_search = new JLabel("查询教师");
+		label_search.setOpaque(true);
+		label_search.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_search.setFont(new Font("宋体", Font.PLAIN, 20));
+		GridBagConstraints gbc_label_search = new GridBagConstraints();
+		gbc_label_search.anchor = GridBagConstraints.NORTHWEST;
+		gbc_label_search.insets = new Insets(0, 0, 5, 0);
+		gbc_label_search.gridx = 0;
+		gbc_label_search.gridy = 1;
+		panel.add(label_search, gbc_label_search);
+		titles[searchTeacherNo] = label_search;
+		label_search.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectModule(titles, modules, searchTeacherNo);
+			}
 
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// label_3.setForeground(mouseEnteredColor);
-					}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// label_3.setForeground(mouseEnteredColor);
+			}
 
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// label_3.setForeground(mouseExitedColor);
-					}
-				});
-				label_teacher.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				label_teacher.setFont(new Font("宋体", Font.PLAIN, 20));
-				GridBagConstraints gbc_label_teacher = new GridBagConstraints();
-				gbc_label_teacher.anchor = GridBagConstraints.NORTHEAST;
-				gbc_label_teacher.insets = new Insets(0, 0, 5, 0);
-				gbc_label_teacher.gridx = 0;
-				gbc_label_teacher.gridy = 0;
-				panel.add(label_teacher, gbc_label_teacher);
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// label_3.setForeground(mouseExitedColor);
+			}
+		});
 		
-				JLabel label_room = new JLabel("创建考场 ");
-				titles[addRoomNo] = label_room;
-				label_room.setOpaque(true);
-				label_room.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						selectModule(titles, modules, addRoomNo);
-					}
 
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// label_2.setForeground(mouseEnteredColor);
-					}
+		JLabel label_environment = new JLabel("环境搭建 ");
+		titles[addEnvironmentNo] = label_environment;
+		label_environment.setOpaque(true);
+		label_environment.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectModule(titles, modules, addEnvironmentNo);
+			}
 
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// label_2.setForeground(mouseExitedColor);
-					}
-				});
-				label_room.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				label_room.setFont(new Font("宋体", Font.PLAIN, 20));
-				GridBagConstraints gbc_label_room = new GridBagConstraints();
-				gbc_label_room.anchor = GridBagConstraints.NORTHEAST;
-				gbc_label_room.insets = new Insets(0, 0, 5, 0);
-				gbc_label_room.gridx = 0;
-				gbc_label_room.gridy = 1;
-				panel.add(label_room, gbc_label_room);
-		
-				JLabel label_environment = new JLabel("环境搭建 ");
-				titles[addEnvironmentNo] = label_environment;
-				label_environment.setOpaque(true);
-				label_environment.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						selectModule(titles, modules, addEnvironmentNo);
-					}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// label_4.setForeground(mouseEnteredColor);
+			}
 
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// label_4.setForeground(mouseEnteredColor);
-					}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// label_4.setForeground(mouseExitedColor);
+			}
+		});
 
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// label_4.setForeground(mouseExitedColor);
-					}
-				});
-				label_environment.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				label_environment.setFont(new Font("宋体", Font.PLAIN, 20));
-				GridBagConstraints gbc_label_environment = new GridBagConstraints();
-				gbc_label_environment.insets = new Insets(0, 0, 5, 0);
-				gbc_label_environment.anchor = GridBagConstraints.NORTHEAST;
-				gbc_label_environment.gridx = 0;
-				gbc_label_environment.gridy = 2;
-				panel.add(label_environment, gbc_label_environment);
+		JLabel label_room = new JLabel("创建考场 ");
+		titles[addRoomNo] = label_room;
+		label_room.setOpaque(true);
+		label_room.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectModule(titles, modules, addRoomNo);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// label_2.setForeground(mouseEnteredColor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// label_2.setForeground(mouseExitedColor);
+			}
+		});
+
+		label_room.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_room.setFont(new Font("宋体", Font.PLAIN, 20));
+		GridBagConstraints gbc_label_room = new GridBagConstraints();
+		gbc_label_room.anchor = GridBagConstraints.NORTHEAST;
+		gbc_label_room.insets = new Insets(0, 0, 5, 0);
+		gbc_label_room.gridx = 0;
+		gbc_label_room.gridy = 2;
+		panel.add(label_room, gbc_label_room);
+		label_environment.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_environment.setFont(new Font("宋体", Font.PLAIN, 20));
+		GridBagConstraints gbc_label_environment = new GridBagConstraints();
+		gbc_label_environment.insets = new Insets(0, 0, 5, 0);
+		gbc_label_environment.anchor = GridBagConstraints.NORTHEAST;
+		gbc_label_environment.gridx = 0;
+		gbc_label_environment.gridy = 3;
+		panel.add(label_environment, gbc_label_environment);
 		contentPane.setLayout(gl_contentPane);
 	}
 
@@ -252,7 +304,7 @@ public class MainAdmin extends JFrame {
 		}
 	}
 
-	private void addModule(JPanel panel_1, SpringLayout sl_panel_1, JPanel module, JPanel[] modules,int no) {
+	private void addModule(JPanel panel_1, SpringLayout sl_panel_1, JPanel module, JPanel[] modules, int no) {
 		sl_panel_1.putConstraint(SpringLayout.EAST, module, 710, SpringLayout.WEST, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.NORTH, module, 10, SpringLayout.NORTH, panel_1);
 		sl_panel_1.putConstraint(SpringLayout.WEST, module, 30, SpringLayout.WEST, panel_1);

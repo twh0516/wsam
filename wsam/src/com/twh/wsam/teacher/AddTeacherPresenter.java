@@ -4,20 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.twh.util.Util;
 import com.twh.util.string.StringUtil;
-import com.twh.wsam.data.entity.CmdResult;
-import com.twh.wsam.data.entity.CmdType;
+import com.twh.wsam.cmd.CmdResult;
+import com.twh.wsam.cmd.CmdType;
 import com.twh.wsam.data.entity.Teacher;
-import com.twh.wsam.data.entity.User;
 import com.twh.wsam.netClient.TextNetClient;
 import com.twh.wsam.netClient.ThreadPool;
-import com.twh.wsam.teacher.TeacherContract.View;
+import com.twh.wsam.teacher.AddTeacherContract.View;
 import com.twh.wsam.util.AppUtil;
 
-public class TeacherPresenter implements TeacherContract.Presenter {
+public class AddTeacherPresenter implements AddTeacherContract.Presenter {
 	private Teacher teacher;
 	private View view;
 
-	public TeacherPresenter(Teacher teacher) {
+	public AddTeacherPresenter(Teacher teacher) {
 		this.teacher = teacher;
 	}
 
@@ -49,7 +48,7 @@ public class TeacherPresenter implements TeacherContract.Presenter {
 		if (teacher == null) {
 			teacher = new Teacher();
 		}
-		teacher.setCmd(CmdType.TEACHER);
+		teacher.setCmd(CmdType.TEACHER_ADD);
 		teacher.setEmployeeNumber(employeeNumber);
 		teacher.setLoginName(employeeNumber);
 		teacher.setName(name);

@@ -171,7 +171,7 @@ public class NonBlockingServer {
 			System.out.println(json);
 			result = json;
 			JSONObject jsonObject = JSON.parseObject(json.trim());
-			if(jsonObject.containsKey(com.twh.wsam.data.entity.CmdType.CMD) && jsonObject.getString(com.twh.wsam.data.entity.CmdType.CMD).equals("quit")) {
+			if(jsonObject.containsKey(com.twh.wsam.cmd.CmdType.CMD) && jsonObject.getString(com.twh.wsam.cmd.CmdType.CMD).equals("quit")) {
 				key.cancel();
 			}
 //			Student student = JSON.parseObject(json.trim(),Student.class);
