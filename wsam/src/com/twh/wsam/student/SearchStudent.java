@@ -34,6 +34,7 @@ public class SearchStudent extends JPanel implements View{
 	private DefaultTableModel model = new DefaultTableModel();
 	private String[] columnNames = {"姓名","学号","班级","联系电话"};
 	private JComboBox comboBox = new JComboBox();
+	private String[][] data;
 	/**
 	 * Create the panel.
 	 */
@@ -148,6 +149,7 @@ public class SearchStudent extends JPanel implements View{
 	}
 	@Override
 	public void showResultTable(String[][] data) {
+		this.data = data;
 		model.setDataVector(data, columnNames);
 	}
 

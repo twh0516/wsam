@@ -21,7 +21,11 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.twh.wsam.examination.SearchExamination;
+import com.twh.wsam.examination.SearchExaminationContract;
+import com.twh.wsam.examination.SearchExaminationPresenter;
 import com.twh.wsam.examination.AddEditExamination;
+import com.twh.wsam.examination.AddExaminationContract;
+import com.twh.wsam.examination.AddExaminationPresenter;
 import com.twh.wsam.student.AddStudentContract;
 import com.twh.wsam.student.AddStudentPresenter;
 import com.twh.wsam.student.SearchStudent;
@@ -145,7 +149,10 @@ public class MainTeacher extends JFrame {
 		addModule(panel_1, sl_panel_1, sv, modules, studentNo);
 
 		// 考试查询
-		JPanel search = new SearchExamination(this);
+		SearchExamination search = new SearchExamination(this);
+		SearchExaminationContract.Presenter searchExaPresenter = new SearchExaminationPresenter();
+		search.setPresenter(searchExaPresenter);
+		searchExaPresenter.setView(search);
 		addModule(panel_1, sl_panel_1, search, modules, searchNo);
 
 		// 教师信息
@@ -157,7 +164,11 @@ public class MainTeacher extends JFrame {
 		addModule(panel_1, sl_panel_1, teacher, modules, teacherNo);
 
 		// 新建考试
-		JPanel addExamination = new AddEditExamination();
+		AddEditExamination addExamination = new AddEditExamination();
+		AddExaminationContract.Presenter addExaPresenter = new AddExaminationPresenter(null);
+		addExamination.setPresenter(addExaPresenter);
+		addExaPresenter.setView(addExamination);
+		addExamination.start();
 		addModule(panel_1, sl_panel_1, addExamination, modules, addExaminationNo);
 		
 		SearchStudent searchStudent = new SearchStudent();

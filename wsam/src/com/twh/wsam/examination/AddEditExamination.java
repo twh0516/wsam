@@ -6,28 +6,33 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.SystemColor;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
-import com.mkk.swing.JTimeChooser;
 import com.twh.util.calendar.CalendarChooser;
-import com.twh.util.calendar.TimeChooser;
 import com.twh.util.calendar.TimeChooserDialog;
-import com.twh.wsam.Numbering;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import com.twh.util.string.StringUtil;
+import com.twh.wsam.data.entity.ExaminationRoom;
+import com.twh.wsam.data.entity.Station;
+import com.twh.wsam.examination.AddExaminationContract.Presenter;
+import com.twh.wsam.examination.AddExaminationContract.View;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 
-public class AddEditExamination extends JPanel{
+public class AddEditExamination extends JPanel implements View{
 	/**
 	 * 
 	 */
@@ -35,18 +40,23 @@ public class AddEditExamination extends JPanel{
 	private JTextField textField_startTime;
 	private JTextField textField_endTime;
 	private JTextField textDate;
-	private JButton button_1;
-	private JButton button_2;
+	private JButton button_regetFilter;
+	private JButton button_regetNormal;
 	private JLabel label_1;
 	private JTextPane comment;
-	private JButton button_3;
+	private JButton button_save;
 	private JLabel label_2;
-	private JTextField textField_2;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-
-
+	private JTextField textField_score;
+	private JTextField textField_level;
+	private JTextField textField_name;
+	private JTextField textField_studentNo;
+	private Presenter presenter;
+	private JButton button_getNormal = new JButton();
+	private JButton button_getFilter = new JButton();
+	private ExaminationRoom[] rooms;
+	private Station[] stations;
+	JComboBox cb_stationNo = new JComboBox();
+	JComboBox cb_roomNo = new JComboBox();
 	/**
 	 * Create the dialog.
 	 */
@@ -75,14 +85,14 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label, gbc_label);
 		}
 		{
-			textField_5 = new JTextField();
-			textField_5.setFont(new Font("Dialog", Font.PLAIN, 18));
-			GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-			gbc_textField_5.insets = new Insets(top, 0, 5, 5);
-			gbc_textField_5.fill = GridBagConstraints.BOTH;
-			gbc_textField_5.gridx = 1;
-			gbc_textField_5.gridy = 1;
-			examinationPanel.add(textField_5, gbc_textField_5);
+			textField_name = new JTextField();
+			textField_name.setFont(new Font("Dialog", Font.PLAIN, 18));
+			GridBagConstraints gbc_textField_name = new GridBagConstraints();
+			gbc_textField_name.insets = new Insets(top, 0, 5, 5);
+			gbc_textField_name.fill = GridBagConstraints.BOTH;
+			gbc_textField_name.gridx = 1;
+			gbc_textField_name.gridy = 1;
+			examinationPanel.add(textField_name, gbc_textField_name);
 		}
 		{
 			JLabel label = new JLabel("学号：");
@@ -96,14 +106,14 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label, gbc_label);
 		}
 		{
-			textField_6 = new JTextField();
-			textField_6.setFont(new Font("Dialog", Font.PLAIN, 18));
-			GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-			gbc_textField_6.insets = new Insets(top, 0, 5, 5);
-			gbc_textField_6.fill = GridBagConstraints.BOTH;
-			gbc_textField_6.gridx = 3;
-			gbc_textField_6.gridy = 1;
-			examinationPanel.add(textField_6, gbc_textField_6);
+			textField_studentNo = new JTextField();
+			textField_studentNo.setFont(new Font("Dialog", Font.PLAIN, 18));
+			GridBagConstraints gbc_textField_studentNo = new GridBagConstraints();
+			gbc_textField_studentNo.insets = new Insets(top, 0, 5, 5);
+			gbc_textField_studentNo.fill = GridBagConstraints.BOTH;
+			gbc_textField_studentNo.gridx = 3;
+			gbc_textField_studentNo.gridy = 1;
+			examinationPanel.add(textField_studentNo, gbc_textField_studentNo);
 		}
 		{
 			JLabel label = new JLabel("考场号：");
@@ -117,26 +127,34 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label, gbc_label);
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			comboBox.setFont(new Font("Dialog", Font.PLAIN, 18));
-			GridBagConstraints gbc_comboBox = new GridBagConstraints();
-			gbc_comboBox.fill = GridBagConstraints.BOTH;
-			gbc_comboBox.insets = new Insets(top, 0, 5, 5);
-			gbc_comboBox.gridx = 1;
-			gbc_comboBox.gridy = 2;
-			examinationPanel.add(comboBox, gbc_comboBox);
+			
+			cb_roomNo.setFont(new Font("Dialog", Font.PLAIN, 18));
+			cb_roomNo.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					if(e.getStateChange()== ItemEvent.SELECTED) {
+						presenter.updateStations(e);
+					}
+				}
+			});
+			GridBagConstraints gbc_cb_roomNo = new GridBagConstraints();
+			gbc_cb_roomNo.fill = GridBagConstraints.BOTH;
+			gbc_cb_roomNo.insets = new Insets(top, 0, 5, 5);
+			gbc_cb_roomNo.gridx = 1;
+			gbc_cb_roomNo.gridy = 2;
+			examinationPanel.add(cb_roomNo, gbc_cb_roomNo);
 		}
 		{
-			textField_4 = new JTextField();
-			textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_4.setFont(new Font("Dialog", Font.PLAIN, 18));
-			textField_4.setBackground(Color.WHITE);
-			GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-			gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-			gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_4.gridx = 3;
-			gbc_textField_4.gridy = 4;
-			examinationPanel.add(textField_4, gbc_textField_4);
+			textField_level = new JTextField();
+			textField_level.setHorizontalAlignment(SwingConstants.CENTER);
+			textField_level.setFont(new Font("Dialog", Font.PLAIN, 18));
+			textField_level.setBackground(Color.WHITE);
+			GridBagConstraints gbc_textField_level = new GridBagConstraints();
+			gbc_textField_level.insets = new Insets(0, 0, 5, 5);
+			gbc_textField_level.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textField_level.gridx = 3;
+			gbc_textField_level.gridy = 4;
+			examinationPanel.add(textField_level, gbc_textField_level);
 		}
 		{
 			JLabel label = new JLabel("全景视频：");
@@ -150,7 +168,7 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label, gbc_label);
 		}
 		{
-			JLabel label = new JLabel("普通视频：");
+			JLabel label = new JLabel("滤镜视频：");
 			label.setHorizontalAlignment(SwingConstants.RIGHT);
 			label.setFont(new Font("宋体", Font.PLAIN, 20));
 			GridBagConstraints gbc_label = new GridBagConstraints();
@@ -161,18 +179,17 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label, gbc_label);
 		}
 		{
-			JButton button = new JButton();
-			button.setText("点击播放视频");
-			button.setHorizontalAlignment(SwingConstants.CENTER);
-			button.setFont(new Font("宋体", Font.PLAIN, 18));
-			button.setBackground(Color.WHITE);
-			GridBagConstraints gbc_button = new GridBagConstraints();
-			gbc_button.fill = GridBagConstraints.HORIZONTAL;
-			gbc_button.anchor = GridBagConstraints.NORTH;
-			gbc_button.insets = new Insets(10, 0, 5, 5);
-			gbc_button.gridx = 3;
-			gbc_button.gridy = 5;
-			examinationPanel.add(button, gbc_button);
+			button_getNormal.setText("点击播放视频");
+			button_getNormal.setHorizontalAlignment(SwingConstants.CENTER);
+			button_getNormal.setFont(new Font("宋体", Font.PLAIN, 18));
+			button_getNormal.setBackground(Color.WHITE);
+			GridBagConstraints gbc_button_getNormal = new GridBagConstraints();
+			gbc_button_getNormal.fill = GridBagConstraints.HORIZONTAL;
+			gbc_button_getNormal.anchor = GridBagConstraints.NORTH;
+			gbc_button_getNormal.insets = new Insets(10, 0, 5, 5);
+			gbc_button_getNormal.gridx = 3;
+			gbc_button_getNormal.gridy = 5;
+			examinationPanel.add(button_getNormal, gbc_button_getNormal);
 		}
 		
 		
@@ -226,18 +243,18 @@ public class AddEditExamination extends JPanel{
 		}
 		
 		{
-			JButton button = new JButton();
-			button.setText("点击获取视频");
-			button.setHorizontalAlignment(SwingConstants.CENTER);
-			button.setFont(new Font("宋体", Font.PLAIN, 18));
-			button.setBackground(Color.WHITE);
-			GridBagConstraints gbc_button = new GridBagConstraints();
-			gbc_button.fill = GridBagConstraints.HORIZONTAL;
-			gbc_button.anchor = GridBagConstraints.NORTH;
-			gbc_button.insets = new Insets(top, 0, 5, 5);
-			gbc_button.gridx = 1;
-			gbc_button.gridy = 5;
-			examinationPanel.add(button, gbc_button);
+			
+			button_getFilter.setText("点击获取视频");
+			button_getFilter.setHorizontalAlignment(SwingConstants.CENTER);
+			button_getFilter.setFont(new Font("宋体", Font.PLAIN, 18));
+			button_getFilter.setBackground(Color.WHITE);
+			GridBagConstraints gbc_button_getFilter = new GridBagConstraints();
+			gbc_button_getFilter.fill = GridBagConstraints.HORIZONTAL;
+			gbc_button_getFilter.anchor = GridBagConstraints.NORTH;
+			gbc_button_getFilter.insets = new Insets(top, 0, 5, 5);
+			gbc_button_getFilter.gridx = 1;
+			gbc_button_getFilter.gridy = 5;
+			examinationPanel.add(button_getFilter, gbc_button_getFilter);
 		}
 		{
 			textField_endTime = new JTextField();
@@ -290,38 +307,38 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label, gbc_label);
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			comboBox.setFont(new Font("Dialog", Font.PLAIN, 18));
-			comboBox.setBackground(Color.WHITE);
-			GridBagConstraints gbc_comboBox = new GridBagConstraints();
-			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBox.anchor = GridBagConstraints.NORTH;
-			gbc_comboBox.insets = new Insets(10, 0, 5, 5);
-			gbc_comboBox.gridx = 3;
-			gbc_comboBox.gridy = 2;
-			examinationPanel.add(comboBox, gbc_comboBox);
+		
+			cb_stationNo.setFont(new Font("Dialog", Font.PLAIN, 18));
+			cb_stationNo.setBackground(Color.WHITE);
+			GridBagConstraints gbc_cb_stationNo = new GridBagConstraints();
+			gbc_cb_stationNo.fill = GridBagConstraints.HORIZONTAL;
+			gbc_cb_stationNo.anchor = GridBagConstraints.NORTH;
+			gbc_cb_stationNo.insets = new Insets(10, 0, 5, 5);
+			gbc_cb_stationNo.gridx = 3;
+			gbc_cb_stationNo.gridy = 2;
+			examinationPanel.add(cb_stationNo, gbc_cb_stationNo);
 		}
 		{
-			button_1 = new JButton("重新获取全景视频");
-			button_1.setFont(new Font("宋体", Font.PLAIN, 18));
-			GridBagConstraints gbc_button_1 = new GridBagConstraints();
-			gbc_button_1.fill = GridBagConstraints.HORIZONTAL;
-			gbc_button_1.anchor = GridBagConstraints.NORTH;
-			gbc_button_1.insets = new Insets(top, 0, 5, 5);
-			gbc_button_1.gridx = 1;
-			gbc_button_1.gridy = 6;
-			examinationPanel.add(button_1, gbc_button_1);
+			button_regetFilter = new JButton("重新获取滤镜视频");
+			button_regetFilter.setFont(new Font("宋体", Font.PLAIN, 18));
+			GridBagConstraints gbc_button_regetFilter = new GridBagConstraints();
+			gbc_button_regetFilter.fill = GridBagConstraints.HORIZONTAL;
+			gbc_button_regetFilter.anchor = GridBagConstraints.NORTH;
+			gbc_button_regetFilter.insets = new Insets(top, 0, 5, 5);
+			gbc_button_regetFilter.gridx = 1;
+			gbc_button_regetFilter.gridy = 6;
+			examinationPanel.add(button_regetFilter, gbc_button_regetFilter);
 		}
 		{
-			button_2 = new JButton("重新获取普通视频");
-			button_2.setFont(new Font("宋体", Font.PLAIN, 18));
-			GridBagConstraints gbc_button_2 = new GridBagConstraints();
-			gbc_button_2.fill = GridBagConstraints.HORIZONTAL;
-			gbc_button_2.anchor = GridBagConstraints.NORTH;
-			gbc_button_2.insets = new Insets(10, 0, 5, 5);
-			gbc_button_2.gridx = 3;
-			gbc_button_2.gridy = 6;
-			examinationPanel.add(button_2, gbc_button_2);
+			button_regetNormal = new JButton("重新获取全景视频");
+			button_regetNormal.setFont(new Font("宋体", Font.PLAIN, 18));
+			GridBagConstraints gbc_button_regetNormal = new GridBagConstraints();
+			gbc_button_regetNormal.fill = GridBagConstraints.HORIZONTAL;
+			gbc_button_regetNormal.anchor = GridBagConstraints.NORTH;
+			gbc_button_regetNormal.insets = new Insets(10, 0, 5, 5);
+			gbc_button_regetNormal.gridx = 3;
+			gbc_button_regetNormal.gridy = 6;
+			examinationPanel.add(button_regetNormal, gbc_button_regetNormal);
 		}
 		{
 			label_2 = new JLabel("评分：");
@@ -336,16 +353,16 @@ public class AddEditExamination extends JPanel{
 			examinationPanel.add(label_2, gbc_label_2);
 		}
 		{
-			textField_2 = new JTextField();
-			textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-			textField_2.setFont(new Font("Dialog", Font.PLAIN, 18));
-			textField_2.setBackground(Color.WHITE);
-			GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-			gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_2.insets = new Insets(top, 0, 5, 5);
-			gbc_textField_2.gridx = 1;
-			gbc_textField_2.gridy = 7;
-			examinationPanel.add(textField_2, gbc_textField_2);
+			textField_score = new JTextField();
+			textField_score.setHorizontalAlignment(SwingConstants.CENTER);
+			textField_score.setFont(new Font("Dialog", Font.PLAIN, 18));
+			textField_score.setBackground(Color.WHITE);
+			GridBagConstraints gbc_textField_score = new GridBagConstraints();
+			gbc_textField_score.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textField_score.insets = new Insets(top, 0, 5, 5);
+			gbc_textField_score.gridx = 1;
+			gbc_textField_score.gridy = 7;
+			examinationPanel.add(textField_score, gbc_textField_score);
 		}
 		{
 			label_1 = new JLabel("评语：");
@@ -370,14 +387,30 @@ public class AddEditExamination extends JPanel{
 		gbc_scrollPane.gridy = 8;
 		examinationPanel.add(scrollPane, gbc_scrollPane);
 		{
-			button_3 = new JButton("保存");
-			button_3.setFont(new Font("宋体", Font.PLAIN, 23));
-			GridBagConstraints gbc_button_3 = new GridBagConstraints();
-			gbc_button_3.insets = new Insets(0, 0, 0, 5);
-			gbc_button_3.gridwidth = 4;
-			gbc_button_3.gridx = 0;
-			gbc_button_3.gridy = 9;
-			examinationPanel.add(button_3, gbc_button_3);
+			button_save = new JButton("保存");
+			button_save.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					presenter.setStudentName(textField_name.getText());
+					presenter.setStudentNo(textField_studentNo.getText());
+					presenter.setEvaDate(textDate.getText());
+					presenter.setSTime(textField_startTime.getText());
+					presenter.setETime(textField_endTime.getText());
+					presenter.setRoomNo(((ExaminationRoom)cb_roomNo.getSelectedItem()).getRoomNo());
+					presenter.setStationNo(((Station)cb_stationNo.getSelectedItem()).getNo());
+					presenter.setComment(comment.getText());
+					presenter.setLevel(textField_level.getText());
+					presenter.setScore(textField_score.getText());
+					
+					presenter.submitExamination();
+				}
+			});
+			button_save.setFont(new Font("宋体", Font.PLAIN, 23));
+			GridBagConstraints gbc_button_save = new GridBagConstraints();
+			gbc_button_save.insets = new Insets(0, 0, 0, 5);
+			gbc_button_save.gridwidth = 4;
+			gbc_button_save.gridx = 0;
+			gbc_button_save.gridy = 9;
+			examinationPanel.add(button_save, gbc_button_save);
 		}
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -396,6 +429,112 @@ public class AddEditExamination extends JPanel{
 		setLayout(groupLayout);
 		{
 		}
+	}
+
+	@Override
+	public void showMessage(String message) {
+		JOptionPane.showMessageDialog(this, message);
+	}
+
+	@Override
+	public void start() {
+		presenter.start();
+	}
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
+	}
+
+	@Override
+	public void setEmployeeNumber(String teacherNo) {
+		
+	}
+
+	@Override
+	public void setStudentName(String name) {
+		textField_name.setText(name);
+	}
+
+	@Override
+	public void setStudentNo(String studentNo) {
+		textField_studentNo.setText(studentNo);
+	}
+
+	@Override
+	public void setEvaDate(String evaDate) {
+		textDate.setText(evaDate);
+	}
+
+	@Override
+	public void setSTime(String sTime) {
+		textField_startTime.setText(sTime);
+	}
+
+	@Override
+	public void setETime(String eTime) {
+		textField_endTime.setText(eTime);
+	}
+	public static String playFilterVideo = "播放滤镜视频";
+	public static String getFilterVideo = "获取滤镜视频";
+	public static String playNormalVideo = "播放全景视频";
+	public static String getNormalVideo = "获取全景视频";
+	
+	@Override
+	public void setFilterVideoUrl(String filterVideoUrl) {
+		if(!StringUtil.isEmpty(filterVideoUrl)){
+			button_getFilter.setText(playFilterVideo);
+		}else {
+			button_getFilter.setText(getFilterVideo);
+		}
+	}
+
+	@Override
+	public void setNormalVideoUrl(String normalVideoUrl) {
+		if(!StringUtil.isEmpty(normalVideoUrl)){
+			button_getNormal.setText(playNormalVideo);
+		}else {
+			button_getNormal.setText(getNormalVideo);
+		}
+	}
+
+	@Override
+	public void setRoomNo(ExaminationRoom room) {
+		if(rooms != null)
+			cb_roomNo.setSelectedItem(room);
+	}
+
+	@Override
+	public void setStationNo(Station station) {
+		if(stations != null) {
+			cb_stationNo.setSelectedItem(station);
+		}
+	}
+
+	@Override
+	public void setComment(String comment) {
+		this.comment.setText(comment);
+	}
+
+	@Override
+	public void setLevel(String level) {
+		textField_level.setText(level);
+	}
+
+	@Override
+	public void setScore(String score) {
+		textField_score.setText(score);
+	}
+
+	@Override
+	public void setRooms(ExaminationRoom[] rooms) {
+		this.rooms = rooms;
+		cb_roomNo.setModel(new DefaultComboBoxModel<>(rooms));
+	}
+	@Override
+	public void setStations(Station[] stations) {
+		this.stations = stations;
+		cb_stationNo.setModel(new DefaultComboBoxModel<>(stations));
 	}
 
 }
